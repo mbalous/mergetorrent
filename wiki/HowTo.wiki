@@ -7,13 +7,8 @@ How to use mergetorrent
 = Details =
 
  # Select the .torrent file in the first textbox.  You can type it in or browse to find it.  If you use uTorrent then it will be in your "Application Data" directory, which will also be the default directory to which you browse.
-
  # Select the directory or file with the downloaded content in the next line.  After this step, you may click "Check" to see how much you have already downloaded.  You do not need to check in order to merge.
-
  # Select the directory or file with other downloaded content in the third line.  After this step, you can click "check" to see how much you have already downloaded.  You do not need to check in order to merge.
-
  # Select a target directory or file for the content output.  You may select one of sources and the merge will occur in place.  If you're worried that mergetorrent will foul it up, go ahead and select a different directory.
-
  # Click merge.  The progress of the merge will display as a percentage.  The total content merged (found in either source) will also display as a percent.
-
  # That's it.  As soon as the progress reaches 100%, the merged content is in the target file/directory.  It should be at least as large as your largest source and hopefully larger!
