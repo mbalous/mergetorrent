@@ -12,3 +12,15 @@ How to use mergetorrent
  # Select a target directory or file for the content output.  You may select one of sources and the merge will occur in place.  If you're worried that mergetorrent will foul it up, go ahead and select a different directory.
  # Click merge.  The progress of the merge will display as a percentage.  The total content merged (found in either source) will also display as a percent.
  # That's it.  As soon as the progress reaches 100%, the merged content is in the target file/directory.  It should be at least as large as your largest source and hopefully larger!
+
+= Multiple .torrent files =
+
+Sometimes you have two .torrent files with files in common.  This might happen if you are downloading a large movie and one torrent includes some little files that the other doesn't.
+
+No problem!
+
+ # Pick one of the .torrent files and then select the two sources just like usual.  For the target, select a new directory/file or select the source that matches the .torrent file.
+ # Now do it again, but use the second .torrent file and target the appropriate source.
+ # Now one more time, same as the first step.
+
+That's it, you've just merged two sets of data from two different torrents.
