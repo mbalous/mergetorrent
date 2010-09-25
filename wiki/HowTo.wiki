@@ -5,22 +5,9 @@
 How to use mergetorrent
 
 = Details =
-
- # Select the .torrent file in the first textbox.  You can type it in or browse to find it.  If you use uTorrent then it will be in your "Application Data" directory, which will also be the default directory to which you browse.
- # Select the directory or file with the downloaded content in the next line.  After this step, you may click "Check" to see how much you have already downloaded.  You do not need to check in order to merge.
- # Select the directory or file with other downloaded content in the third line.  After this step, you can click "check" to see how much you have already downloaded.  You do not need to check in order to merge.
- # Select a target directory or file for the content output.  You may select one of sources and the merge will occur in place.  If you're worried that mergetorrent will foul it up, go ahead and select a different directory.
- # Click merge.  The progress of the merge will display as a percentage.  The total content merged (found in either source) will also display as a percent.
- # That's it.  As soon as the progress reaches 100%, the merged content is in the target file/directory.  It should be at least as large as your largest source and hopefully larger!
-
-= Multiple .torrent files =
-
-Sometimes you have two .torrent files with files in common.  This might happen if you are downloading a large movie and one torrent includes some little files that the other doesn't.
-
-No problem!
-
- # Pick one of the .torrent files and then select the two sources just like usual.  For the target, select a new directory/file or select the source that matches the .torrent file.
- # Now do it again, but use the second .torrent file and target the appropriate source.
- # Now one more time, same as the first step.
-
-That's it, you've just merged two sets of data from two different torrents.
+ # Add all the .torrent files that you want to fix. Also add any files or directories that might have relevant files. Don't worry if you add extra files or directories, mergetorrent will figure it out.
+ # *Exit uTorrent.*
+ # Press "Start!". The process might take a few minutes depending on how many torrents there are. (Around 1 minute per Gigabyte of data.)
+ # Restart uTorrent.
+ # *Stop all the torrents that you merged and "Force re-check" on them.*
+ # Now you can start the torrents again.
