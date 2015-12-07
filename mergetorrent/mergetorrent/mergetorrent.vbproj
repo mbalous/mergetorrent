@@ -83,7 +83,7 @@
   <ItemGroup>
     <Compile Include="Bencode.vb" />
     <Compile Include="CheckHash.vb" />
-    <Compile Include="ISynchronizeInvokeExtensions.vb" />
+    <Compile Include="SynchronizeInvokeExtensions.vb" />
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>

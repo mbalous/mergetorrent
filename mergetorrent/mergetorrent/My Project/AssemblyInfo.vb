@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("mergetorrent")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("mergetorrent")> 
-<Assembly: AssemblyCopyright("Copyright ©  2009-2010")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("mergetorrent")>
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("mergetorrent")>
+<Assembly: AssemblyCopyright("Copyright ©  2009-2010")>
+<Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("df6d98d4-8b60-4553-ab58-e6a927b108d4")> 
+<Assembly: Guid("df6d98d4-8b60-4553-ab58-e6a927b108d4")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.3.0.0")> 
-<Assembly: AssemblyFileVersion("2.3.0.0")> 
+<Assembly: AssemblyVersion("2.3.0.0")>
+<Assembly: AssemblyFileVersion("2.3.0.0")>

@@ -1,7 +1,10 @@
 ﻿Public Class MainForm
+    Private Const Sha1Hashbytes As Integer = 20
 
-    Private Const SHA1_HASHBYTES As Integer = 20
-    Private utorrent_config_dir As String = My.Computer.FileSystem.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "uTorrent")
+    Private _
+        _utorrentConfigDir As String =
+            My.Computer.FileSystem.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                               "uTorrent")
 
     Private Class SourceItem
         Inherits ListViewItem
@@ -23,8 +26,8 @@
             Get
                 Return path_
             End Get
-            Set(ByVal value As String)
-                path_ = value
+            Set
+                path_ = Value
             End Set
         End Property
 
@@ -38,8 +41,8 @@
             Get
                 Return Processed_
             End Get
-            Set(ByVal value As Double)
-                Processed_ = value
+            Set
+                Processed_ = Value
                 Me.SubItems(1).Text = Processed_.ToString("P02")
             End Set
         End Property
@@ -48,8 +51,8 @@
             Get
                 Return Completion_
             End Get
-            Set(ByVal value As Double)
-                Completion_ = value
+            Set
+                Completion_ = Value
                 Me.SubItems(2).Text = Completion_.ToString("P02")
             End Set
         End Property
@@ -58,8 +61,8 @@
             Get
                 Return Recovered_
             End Get
-            Set(ByVal value As Double)
-                Recovered_ = value
+            Set
+                Recovered_ = Value
                 Me.SubItems(3).Text = Recovered_.ToString("P02")
             End Set
         End Property
@@ -68,13 +71,13 @@
             Get
                 Return Status_
             End Get
-            Set(ByVal value As String)
-                Status_ = value
+            Set
+                Status_ = Value
                 Me.SubItems(4).Text = Status_
             End Set
         End Property
 
-        Sub New(ByVal Path As String, ByVal Type As SourceItemType)
+        Sub New(Path As String, Type As SourceItemType)
             If Type = SourceItemType.Torrent Then
                 Me.ToolTipText = Path
                 Me.Text = My.Computer.FileSystem.GetName(Path)
@@ -98,7 +101,8 @@
         End Function
     End Class
 
-    Private Sub btnAddTorrents_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddTorrents.Click
+    Private Sub btnAddTorrents_Click(sender As System.Object, e As System.EventArgs) _
+        Handles btnAddTorrents.Click
         Dim ofd As New OpenFileDialog
 
         ofd.AddExtension = True
@@ -108,8 +112,8 @@
         ofd.DefaultExt = ".torrent"
         ofd.DereferenceLinks = True
         ofd.Filter = "Torrents (*.torrent)|*.torrent|All files (*.*)|*.*"
-        If System.IO.Directory.Exists(utorrent_config_dir) Then
-            ofd.InitialDirectory = utorrent_config_dir
+        If System.IO.Directory.Exists(_utorrentConfigDir) Then
+            ofd.InitialDirectory = _utorrentConfigDir
         End If
         ofd.Multiselect = True
         ofd.Title = "Find Torrent(s)"
@@ -119,12 +123,12 @@
                 si.Group = lvSources.Groups("lvgTorrents")
                 lvSources.Items.Add(si)
             Next
-            utorrent_config_dir = My.Computer.FileSystem.GetParentPath(ofd.FileName)
+            _utorrentConfigDir = My.Computer.FileSystem.GetParentPath(ofd.FileName)
         End If
         lvSources_ItemCountChanged(Me, Nothing)
     End Sub
 
-    Private Sub btnAddFiles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddFiles.Click
+    Private Sub btnAddFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnAddFiles.Click
         Dim ofd As New OpenFileDialog
 
         ofd.AddExtension = True
@@ -145,7 +149,8 @@
         lvSources_ItemCountChanged(Me, Nothing)
     End Sub
 
-    Private Sub btnAddDirectory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddDirectory.Click
+    Private Sub btnAddDirectory_Click(sender As System.Object, e As System.EventArgs) _
+        Handles btnAddDirectory.Click
         Dim fbd As New FolderBrowserDialog
         fbd.ShowNewFolderButton = False
         fbd.Description = "Find Source Directory (all subdirectories will be included)"
@@ -157,11 +162,12 @@
         lvSources_ItemCountChanged(Me, Nothing)
     End Sub
 
-    Private Sub lvSources_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvSources.SelectedIndexChanged
+    Private Sub lvSources_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) _
+        Handles lvSources.SelectedIndexChanged
         btnClear.Enabled = lvSources.SelectedIndices.Count > 0
     End Sub
 
-    Private Sub lvSources_ItemCountChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub lvSources_ItemCountChanged(sender As System.Object, e As System.EventArgs)
         btnClearAll.Enabled = lvSources.Items.Count > 0
         btnStart.Enabled = False
         For Each li As SourceItem In lvSources.Items
@@ -171,7 +177,7 @@
         Next
     End Sub
 
-    Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClear.Click
+    Private Sub btnClear_Click(sender As System.Object, e As System.EventArgs) Handles btnClear.Click
         If lvSources.SelectedIndices.Count > 0 Then
             For i As Integer = lvSources.Items.Count - 1 To 0 Step -1
                 If lvSources.Items(i).Selected Then
@@ -182,21 +188,23 @@
         lvSources_ItemCountChanged(Me, Nothing)
     End Sub
 
-    Private Sub btnClearAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAll.Click
+    Private Sub btnClearAll_Click(sender As System.Object, e As System.EventArgs) Handles btnClearAll.Click
         If lvSources.Items.Count > 0 Then
             lvSources.Items.Clear()
         End If
         lvSources_ItemCountChanged(Me, Nothing)
     End Sub
 
-    Private Sub lnkMergeTorrent_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkMergeTorrent.LinkClicked
+    Private Sub lnkMergeTorrent_LinkClicked(sender As System.Object,
+                                            e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) _
+        Handles lnkMergeTorrent.LinkClicked
         Process.Start("http://code.google.com/p/mergetorrent/")
     End Sub
 
-    Private Function GetConfigFile(ByVal filename As String) As Dictionary(Of String, Object)
+    Private Function GetConfigFile(filename As String) As Dictionary(Of String, Object)
         Dim config_file_fs As System.IO.FileStream
-        If System.IO.File.Exists(My.Computer.FileSystem.CombinePath(utorrent_config_dir, filename)) Then
-            config_file_fs = System.IO.File.OpenRead(My.Computer.FileSystem.CombinePath(utorrent_config_dir, filename))
+        If System.IO.File.Exists(My.Computer.FileSystem.CombinePath(_utorrentConfigDir, filename)) Then
+            config_file_fs = System.IO.File.OpenRead(My.Computer.FileSystem.CombinePath(_utorrentConfigDir, filename))
         Else
             Dim ofd As New OpenFileDialog
 
@@ -206,20 +214,22 @@
             ofd.CheckPathExists = True
             ofd.DefaultExt = ".dat"
             ofd.DereferenceLinks = True
-            ofd.Filter = My.Computer.FileSystem.GetName(filename) & "|" & My.Computer.FileSystem.GetName(filename) & "|All files (*.*)|*.*"
+            ofd.Filter = My.Computer.FileSystem.GetName(filename) & "|" & My.Computer.FileSystem.GetName(filename) &
+                         "|All files (*.*)|*.*"
             ofd.Title = "Open " & filename & " or cancel if you're not using uTorrent..."
-            If System.IO.Directory.Exists(utorrent_config_dir) Then
-                ofd.InitialDirectory = utorrent_config_dir
+            If System.IO.Directory.Exists(_utorrentConfigDir) Then
+                ofd.InitialDirectory = _utorrentConfigDir
             End If
             ofd.Multiselect = False
             If InvokeEx(AddressOf ofd.ShowDialog, Me, Me) = Windows.Forms.DialogResult.OK Then
-                utorrent_config_dir = My.Computer.FileSystem.GetParentPath(ofd.FileName)
+                _utorrentConfigDir = My.Computer.FileSystem.GetParentPath(ofd.FileName)
                 config_file_fs = System.IO.File.OpenRead(ofd.FileName)
             Else
                 Throw New ApplicationException("Can't find " & filename)
             End If
         End If
-        Dim config_file As Dictionary(Of String, Object) = DirectCast(Bencode.Decode(config_file_fs), Dictionary(Of String, Object))
+        Dim config_file As Dictionary(Of String, Object) = DirectCast(Bencode.Decode(config_file_fs),
+                                                                      Dictionary(Of String, Object))
         config_file_fs.Close()
         Return config_file
     End Function
@@ -231,16 +241,20 @@
     ''' <param name="ForOutput">The list will have exactly one path member per element, otherwise maybe more</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function TorrentFilenameToMultiPath(ByVal torrent_filename As String, ByVal ForOutput As Boolean) As List(Of MultiFileStream.FileInfo)
+    Private Function TorrentFilenameToMultiPath(torrent_filename As String, ForOutput As Boolean) _
+        As List(Of MultiFileStream.FileInfo)
         TorrentFilenameToMultiPath = New List(Of MultiFileStream.FileInfo)
         Dim resume_dat As Dictionary(Of String, Object) = GetConfigFile("resume.dat")
 
         Dim torrent_fs As System.IO.FileStream = System.IO.File.OpenRead(torrent_filename)
-        Dim torrent As Dictionary(Of String, Object) = DirectCast(Bencode.Decode(torrent_fs), Dictionary(Of String, Object))
+        Dim torrent As Dictionary(Of String, Object) = DirectCast(Bencode.Decode(torrent_fs),
+                                                                  Dictionary(Of String, Object))
         torrent_fs.Close()
         Dim current_torrent As Dictionary(Of String, Object) = Nothing
         For Each s As String In resume_dat.Keys
-            If My.Computer.FileSystem.CombinePath(utorrent_config_dir, s) = My.Computer.FileSystem.GetFileInfo(torrent_filename).FullName Then
+            If _
+                My.Computer.FileSystem.CombinePath(_utorrentConfigDir, s) =
+                My.Computer.FileSystem.GetFileInfo(torrent_filename).FullName Then
                 current_torrent = DirectCast(resume_dat(s), Dictionary(Of String, Object))
                 Exit For
             End If
@@ -252,20 +266,26 @@
         info = DirectCast(torrent("info"), Dictionary(Of String, Object))
         If info.ContainsKey("files") Then
             For file_index As Integer = 0 To DirectCast(info("files"), List(Of Object)).Count - 1
-                Dim f As Dictionary(Of String, Object) = DirectCast(DirectCast(info("files"), List(Of Object))(file_index), Dictionary(Of String, Object))
+                Dim f As Dictionary(Of String, Object) =
+                        DirectCast(DirectCast(info("files"), List(Of Object))(file_index), Dictionary(Of String, Object))
                 Dim source_filenames As New List(Of String)
                 source_filenames.Add(System.Text.Encoding.UTF8.GetString(DirectCast(current_torrent("path"), Byte())))
                 For Each path_element As Byte() In DirectCast(f("path"), List(Of Object))
-                    source_filenames(0) = My.Computer.FileSystem.CombinePath(source_filenames(0), System.Text.Encoding.UTF8.GetString(path_element))
+                    source_filenames(0) = My.Computer.FileSystem.CombinePath(source_filenames(0),
+                                                                             System.Text.Encoding.UTF8.GetString(
+                                                                                 path_element))
                 Next
 
                 If current_torrent.ContainsKey("targets") Then 'override
-                    For Each current_target As List(Of Object) In DirectCast(current_torrent("targets"), List(Of Object))
+                    For Each current_target As List(Of Object) In
+                        DirectCast(current_torrent("targets"), List(Of Object))
                         If DirectCast(current_target(0), Long) = file_index Then
                             If ForOutput Then
-                                source_filenames(0) = System.Text.Encoding.UTF8.GetString(DirectCast(current_target(1), Byte()))
+                                source_filenames(0) = System.Text.Encoding.UTF8.GetString(DirectCast(current_target(1),
+                                                                                                     Byte()))
                             Else
-                                source_filenames(1) = System.Text.Encoding.UTF8.GetString(DirectCast(current_target(1), Byte()))
+                                source_filenames(1) = System.Text.Encoding.UTF8.GetString(DirectCast(current_target(1),
+                                                                                                     Byte()))
                             End If
                             Exit For
                         End If
@@ -273,13 +293,17 @@
                 End If
 
                 If ForOutput Then
-                    If My.Computer.FileSystem.FileExists(source_filenames(0)) Then 'if the file exists, this is the output
+                    If My.Computer.FileSystem.FileExists(source_filenames(0)) Then _
+                        'if the file exists, this is the output
                         'do nothing
-                    ElseIf My.Computer.FileSystem.FileExists(source_filenames(0) & ".!ut") Then 'if it exists with .ut!, this is the output
+                    ElseIf My.Computer.FileSystem.FileExists(source_filenames(0) & ".!ut") Then _
+                        'if it exists with .ut!, this is the output
                         source_filenames(0) &= ".!ut"
                     Else 'read the settings to determine how to store the file
                         Dim settings_dat As Dictionary(Of String, Object) = GetConfigFile("settings.dat")
-                        If settings_dat.ContainsKey("append_incomplete") AndAlso DirectCast(settings_dat("append_incomplete"), Long) <> 0 Then
+                        If _
+                            settings_dat.ContainsKey("append_incomplete") AndAlso
+                            DirectCast(settings_dat("append_incomplete"), Long) <> 0 Then
                             source_filenames(0) &= ".!ut"
                         End If
                     End If
@@ -296,13 +320,16 @@
                 Dim source_filenames As New List(Of String)
                 source_filenames.Add(System.Text.Encoding.UTF8.GetString(DirectCast(current_torrent("path"), Byte())))
                 If ForOutput Then
-                    If My.Computer.FileSystem.FileExists(source_filenames(0)) Then 'if the file exists, this is the output
+                    If My.Computer.FileSystem.FileExists(source_filenames(0)) Then _
+                        'if the file exists, this is the output
                         'do nothing
                     ElseIf My.Computer.FileSystem.FileExists(source_filenames(0) & ".!ut") Then
                         source_filenames(0) &= ".!ut"
                     Else
                         Dim settings_dat As Dictionary(Of String, Object) = GetConfigFile("settings.dat")
-                        If settings_dat.ContainsKey("append_incomplete") AndAlso DirectCast(settings_dat("append_incomplete"), Long) <> 0 Then
+                        If _
+                            settings_dat.ContainsKey("append_incomplete") AndAlso
+                            DirectCast(settings_dat("append_incomplete"), Long) <> 0 Then
                             source_filenames(0) &= ".!ut"
                         End If
                     End If
@@ -325,7 +352,7 @@
     ''' <param name="target_length"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function FindAllByLength(ByVal target_length As Long) As List(Of String)
+    Private Function FindAllByLength(target_length As Long) As List(Of String)
         FindAllByLength = New List(Of String)
 
         For i As Integer = 0 To lvSources.Items.Count - 1
@@ -339,16 +366,16 @@
                     For Each fi As MultiFileStream.FileInfo In m
                         For Each s As String In fi.Path
                             If MergeWorker.CancellationPending Then Exit Function
-                            If Not FindAllByLength.Contains(s) AndAlso _
-                               My.Computer.FileSystem.FileExists(s) AndAlso _
+                            If Not FindAllByLength.Contains(s) AndAlso
+                               My.Computer.FileSystem.FileExists(s) AndAlso
                                My.Computer.FileSystem.GetFileInfo(s).Length = target_length Then
                                 FindAllByLength.Add(s)
                             End If
                         Next
                     Next
                 Case SourceItem.SourceItemType.File
-                    If Not FindAllByLength.Contains(possible_source_path) AndAlso _
-                       My.Computer.FileSystem.FileExists(possible_source_path) AndAlso _
+                    If Not FindAllByLength.Contains(possible_source_path) AndAlso
+                       My.Computer.FileSystem.FileExists(possible_source_path) AndAlso
                        My.Computer.FileSystem.GetFileInfo(possible_source_path).Length = target_length Then
                         FindAllByLength.Add(possible_source_path)
                     End If
@@ -361,7 +388,7 @@
                         Try
                             For Each f As System.IO.FileInfo In directory_stack.Peek.GetFiles
                                 If MergeWorker.CancellationPending Then Exit Function
-                                If Not FindAllByLength.Contains(f.FullName) AndAlso _
+                                If Not FindAllByLength.Contains(f.FullName) AndAlso
                                    f.Length = target_length Then
                                     FindAllByLength.Add(f.FullName)
                                 End If
@@ -383,13 +410,15 @@
         Next
     End Function
 
-    Private Delegate Function GetSourceItemCallback(ByVal index As Integer) As SourceItem
+    Private Delegate Function GetSourceItemCallback(index As Integer) As SourceItem
 
-    Private Function GetSourceItem(ByVal index As Integer) As SourceItem
-        Return InvokeEx(Of Integer, SourceItem)(Function(x As Integer) DirectCast(lvSources.Items(x), SourceItem), index, lvSources)
+    Private Function GetSourceItem(index As Integer) As SourceItem
+        Return _
+            InvokeEx(Of Integer, SourceItem)(Function(x As Integer) DirectCast(lvSources.Items(x), SourceItem), index,
+                                              lvSources)
     End Function
 
-    Private Sub btnStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStart.Click
+    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
         If Not MergeWorker.IsBusy Then
             btnAddDirectory.Enabled = False
             btnAddFiles.Enabled = False
@@ -406,9 +435,12 @@
         End If
     End Sub
 
-    Private Sub UpdateStatus(ByVal s As String, ByVal force As Boolean, Optional ByVal listitem As SourceItem = Nothing, Optional ByVal Completion As Double = -1, Optional ByVal Processed As Double = -1, Optional ByVal Recovered As Double = -1)
+    Private Sub UpdateStatus(s As String, force As Boolean, Optional ByVal listitem As SourceItem = Nothing,
+                             Optional ByVal Completion As Double = -1, Optional ByVal Processed As Double = -1,
+                             Optional ByVal Recovered As Double = -1)
         Dim update_period As TimeSpan = New TimeSpan(0, 0, 0, 0, 500) 'every 500ms
-        Static Dim last_update As Date = Date.MinValue
+
+        Dim last_update As Date = Date.MinValue
         If force OrElse last_update + update_period <= Now Then
             last_update = Now
             If listitem IsNot Nothing Then
@@ -430,8 +462,10 @@
     Private Sub Merge()
         UpdateStatus("Mering...", True)
         'First get all the lists of files for output streams
-        Dim output_files As New Dictionary(Of Integer, List(Of MultiFileStream.FileInfo))(lvSources.Items.Count) 'each element is a list of the output files for a torrent
-        Dim file_lengths As New Dictionary(Of Long, List(Of String)) 'a dictionary of the lengths needed for the output files
+        Dim output_files As New Dictionary(Of Integer, List(Of MultiFileStream.FileInfo))(lvSources.Items.Count) _
+        'each element is a list of the output files for a torrent
+        Dim file_lengths As New Dictionary(Of Long, List(Of String)) _
+        'a dictionary of the lengths needed for the output files
         For current_listitem_index As Integer = 0 To lvSources.Items.Count - 1
             If MergeWorker.CancellationPending Then Exit Sub
             Dim current_listitem As SourceItem = GetSourceItem(current_listitem_index)
@@ -443,7 +477,8 @@
                     If MergeWorker.CancellationPending Then Exit Sub
                     UpdateStatus("Finding destination files... (" & fi.Path(0) & ")", False, current_listitem)
                     If Not file_lengths.ContainsKey(fi.Length) Then
-                        file_lengths.Add(fi.Length, New List(Of String)) 'empty list for now until we find files of this length
+                        file_lengths.Add(fi.Length, New List(Of String)) _
+                        'empty list for now until we find files of this length
                     End If
                 Next
 
@@ -466,18 +501,21 @@
                         For Each s As String In fi.Path
                             If MergeWorker.CancellationPending Then Exit Sub
                             UpdateStatus("Finding source files... (" & s & ")", False, current_listitem)
-                            If My.Computer.FileSystem.FileExists(s) AndAlso _
-                               file_lengths.ContainsKey(My.Computer.FileSystem.GetFileInfo(s).Length) AndAlso _
+                            If My.Computer.FileSystem.FileExists(s) AndAlso
+                               file_lengths.ContainsKey(My.Computer.FileSystem.GetFileInfo(s).Length) AndAlso
                                Not file_lengths(My.Computer.FileSystem.GetFileInfo(s).Length).Contains(s) Then
                                 file_lengths(My.Computer.FileSystem.GetFileInfo(s).Length).Add(s)
                             End If
                         Next
                     Next
                 Case SourceItem.SourceItemType.File
-                    If My.Computer.FileSystem.FileExists(possible_source_path) AndAlso _
-                       file_lengths.ContainsKey(My.Computer.FileSystem.GetFileInfo(possible_source_path).Length) AndAlso _
-                       Not file_lengths(My.Computer.FileSystem.GetFileInfo(possible_source_path).Length).Contains(possible_source_path) Then
-                        file_lengths(My.Computer.FileSystem.GetFileInfo(possible_source_path).Length).Add(possible_source_path)
+                    If My.Computer.FileSystem.FileExists(possible_source_path) AndAlso
+                       file_lengths.ContainsKey(My.Computer.FileSystem.GetFileInfo(possible_source_path).Length) AndAlso
+                       Not _
+                       file_lengths(My.Computer.FileSystem.GetFileInfo(possible_source_path).Length).Contains(
+                           possible_source_path) Then
+                        file_lengths(My.Computer.FileSystem.GetFileInfo(possible_source_path).Length).Add(
+                            possible_source_path)
                     End If
                 Case SourceItem.SourceItemType.Directory
                     'we don't use GetFiles recursive feature because there might be some directories that we can't read.
@@ -485,12 +523,13 @@
                     directory_stack.Enqueue(My.Computer.FileSystem.GetDirectoryInfo(possible_source_path))
                     Do While directory_stack.Count > 0
                         If MergeWorker.CancellationPending Then Exit Sub
-                        UpdateStatus("Entering directory... (" & directory_stack.Peek.FullName & ")", False, current_listitem)
+                        UpdateStatus("Entering directory... (" & directory_stack.Peek.FullName & ")", False,
+                                     current_listitem)
                         Try
                             For Each f As System.IO.FileInfo In directory_stack.Peek.GetFiles
                                 If MergeWorker.CancellationPending Then Exit Sub
                                 UpdateStatus("Finding source files... (" & f.FullName & ")", False, current_listitem)
-                                If file_lengths.ContainsKey(f.Length) AndAlso _
+                                If file_lengths.ContainsKey(f.Length) AndAlso
                                    Not file_lengths(f.Length).Contains(f.FullName) Then
                                     file_lengths(f.Length).Add(f.FullName)
                                 End If
@@ -524,8 +563,10 @@
                 For Each fi As MultiFileStream.FileInfo In output_files(current_listitem_index)
                     If MergeWorker.CancellationPending Then Exit Sub
                     UpdateStatus("Building input list... (" & fi.Path(0) & ")", False, current_listitem)
-                    Dim new_paths As New List(Of String)(file_lengths(fi.Length)) 'make a copy because we change the sort order as needed
-                    If new_paths.IndexOf(fi.Path(0)) > 0 Then 'if it's there but not first then make it first.  This might speed things up, who knows?
+                    Dim new_paths As New List(Of String)(file_lengths(fi.Length)) _
+                    'make a copy because we change the sort order as needed
+                    If new_paths.IndexOf(fi.Path(0)) > 0 Then _
+                        'if it's there but not first then make it first.  This might speed things up, who knows?
                         new_paths.Remove(fi.Path(0))
                         new_paths.Insert(0, fi.Path(0))
                     End If
@@ -542,8 +583,14 @@
             Dim current_listitem As SourceItem = DirectCast(GetSourceItem(current_listitem_index), SourceItem)
             If current_listitem.Type = SourceItem.SourceItemType.Torrent Then
                 UpdateStatus("Merging...", True, current_listitem)
-                Dim out_stream As New MultiFileStream(output_files(current_listitem_index), IO.FileMode.OpenOrCreate, IO.FileAccess.ReadWrite, IO.FileShare.ReadWrite)
-                Dim in_stream As New MultiFileStream(input_files(current_listitem_index), IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite)
+                Dim _
+                    out_stream As _
+                        New MultiFileStream(output_files(current_listitem_index), IO.FileMode.OpenOrCreate,
+                                            IO.FileAccess.ReadWrite, IO.FileShare.ReadWrite)
+                Dim _
+                    in_stream As _
+                        New MultiFileStream(input_files(current_listitem_index), IO.FileMode.Open, IO.FileAccess.Read,
+                                            IO.FileShare.ReadWrite)
                 'now we have all the files that might work.  Start checking and merging.
 
                 Dim torrent As Dictionary(Of String, Object)
@@ -563,11 +610,13 @@
 
                 Do While pieces_position < pieces.Length
                     If MergeWorker.CancellationPending Then Exit Sub
-                    UpdateStatus("Merging " & in_stream.GetCurrentFileName() & " with " & out_stream.GetCurrentFileName & " ...", False, _
-                                 current_listitem,
-                                 CDbl(complete_bytes) / CDbl(out_stream.Length), _
-                                 CDbl(out_stream.Position) / CDbl(out_stream.Length), _
-                                 CDbl(recovered_bytes) / CDbl(out_stream.Length))
+                    UpdateStatus(
+                        "Merging " & in_stream.GetCurrentFileName() & " with " & out_stream.GetCurrentFileName & " ...",
+                        False,
+                        current_listitem,
+                        CDbl(complete_bytes) / CDbl(out_stream.Length),
+                        CDbl(out_stream.Position) / CDbl(out_stream.Length),
+                        CDbl(recovered_bytes) / CDbl(out_stream.Length))
                     Dim read_len As Integer
 
                     read_len = CInt(Math.Min(piece_len, in_stream.Length - in_stream.Position))
@@ -577,17 +626,21 @@
                             out_stream.Read(buffer, 0, read_len)
                             Exit Do
                         Catch ex As System.IO.IOException
-                            If MessageBox.Show("Couldn't read from " & out_stream.GetCurrentFileName() & vbCrLf & vbCrLf & ex.ToString, "Couldn't read", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) <> DialogResult.Retry Then
+                            If _
+                                MessageBox.Show(
+                                    "Couldn't read from " & out_stream.GetCurrentFileName() & vbCrLf & vbCrLf &
+                                    ex.ToString, "Couldn't read", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error,
+                                    MessageBoxDefaultButton.Button1) <> DialogResult.Retry Then
                                 Exit Sub
                             End If
                         End Try
                     Loop
                     hash_result = CheckHash.Hash(buffer, read_len)
                     Dim i As Integer = 0
-                    Do While i < SHA1_HASHBYTES AndAlso pieces(pieces_position + i) = hash_result(i)
+                    Do While i < Sha1Hashbytes AndAlso pieces(pieces_position + i) = hash_result(i)
                         i += 1
                     Loop
-                    If i = SHA1_HASHBYTES Then
+                    If i = Sha1Hashbytes Then
                         'match!  No need to read from the in_stream
                         in_stream.Position += read_len
                         complete_bytes += read_len
@@ -601,17 +654,22 @@
                                     in_stream.Read(buffer, 0, read_len)
                                     Exit Do
                                 Catch ex As System.IO.IOException
-                                    If MessageBox.Show("Couldn't read from " & in_stream.GetCurrentFileName() & vbCrLf & vbCrLf & ex.ToString, "Couldn't read", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) <> DialogResult.Retry Then
+                                    If _
+                                        MessageBox.Show(
+                                            "Couldn't read from " & in_stream.GetCurrentFileName() & vbCrLf & vbCrLf &
+                                            ex.ToString, "Couldn't read", MessageBoxButtons.RetryCancel,
+                                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) <> DialogResult.Retry _
+                                        Then
                                         Exit Sub
                                     End If
                                 End Try
                             Loop
                             hash_result = CheckHash.Hash(buffer, read_len)
                             i = 0
-                            Do While i < SHA1_HASHBYTES AndAlso pieces(pieces_position + i) = hash_result(i)
+                            Do While i < Sha1Hashbytes AndAlso pieces(pieces_position + i) = hash_result(i)
                                 i += 1
                             Loop
-                            If i = SHA1_HASHBYTES Then
+                            If i = Sha1Hashbytes Then
                                 'match!
                                 complete_bytes += read_len
                                 recovered_bytes += read_len
@@ -620,7 +678,12 @@
                                         out_stream.Write(buffer, 0, read_len)
                                         Exit Do
                                     Catch ex As Exception
-                                        If MessageBox.Show("Couldn't write to " & in_stream.GetCurrentFileName() & vbCrLf & vbCrLf & ex.ToString, "Couldn't read", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) <> DialogResult.Retry Then
+                                        If _
+                                            MessageBox.Show(
+                                                "Couldn't write to " & in_stream.GetCurrentFileName() & vbCrLf & vbCrLf &
+                                                ex.ToString, "Couldn't read", MessageBoxButtons.RetryCancel,
+                                                MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) <>
+                                            DialogResult.Retry Then
                                             Exit Sub
                                         End If
                                     End Try
@@ -639,22 +702,25 @@
                             End If
                         Loop
                     End If
-                    pieces_position += SHA1_HASHBYTES
+                    pieces_position += Sha1Hashbytes
                 Loop
-                UpdateStatus("Merge complete.", True, _
-                                 current_listitem,
-                                 CDbl(complete_bytes) / CDbl(out_stream.Length), _
-                                 CDbl(out_stream.Position) / CDbl(out_stream.Length), _
-                                 CDbl(recovered_bytes) / CDbl(out_stream.Length))
+                UpdateStatus("Merge complete.", True,
+                             current_listitem,
+                             CDbl(complete_bytes) / CDbl(out_stream.Length),
+                             CDbl(out_stream.Position) / CDbl(out_stream.Length),
+                             CDbl(recovered_bytes) / CDbl(out_stream.Length))
             End If
         Next
     End Sub
 
-    Private Sub MergeWorker_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles MergeWorker.DoWork
+    Private Sub MergeWorker_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) _
+        Handles MergeWorker.DoWork
         Merge()
     End Sub
 
-    Private Sub MergeWorker_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles MergeWorker.RunWorkerCompleted
+    Private Sub MergeWorker_RunWorkerCompleted(sender As System.Object,
+                                               e As System.ComponentModel.RunWorkerCompletedEventArgs) _
+        Handles MergeWorker.RunWorkerCompleted
         If e.Cancelled Then
             UpdateStatus("Cancelled.", True)
         Else
@@ -671,7 +737,9 @@
     End Sub
 
     Dim close_requested As Boolean = False
-    Private Sub MainForm_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+
+    Private Sub MainForm_FormClosing(sender As System.Object, e As System.Windows.Forms.FormClosingEventArgs) _
+        Handles MyBase.FormClosing
         If MergeWorker.IsBusy Then
             close_requested = True 'remember that we want to close later
             e.Cancel = True 'don't close just yet

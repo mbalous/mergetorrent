@@ -5,7 +5,7 @@
         Inherits Exception
     End Class
 
-    Public Shared Function Decode(ByVal inStream As System.IO.Stream) As Object
+    Public Shared Function Decode(inStream As System.IO.Stream) As Object
         'Returns one of the encoded types: byte string, integer, list or dictionary.
         'return nothing if the input is empty
         'throws exceptions on errors in the input
@@ -20,7 +20,7 @@
         Return DecodeElement(br)
     End Function
 
-    Private Shared Function DecodeElement(ByVal br As System.IO.BinaryReader) As Object
+    Private Shared Function DecodeElement(br As System.IO.BinaryReader) As Object
         Dim NextChar As Char
         Try
             NextChar = Chr(br.PeekChar)
@@ -42,7 +42,7 @@
         Throw New ParseErrorException
     End Function
 
-    Public Shared Function DecodeDictionary(ByVal br As System.IO.BinaryReader) As Dictionary(Of String, Object)
+    Public Shared Function DecodeDictionary(br As System.IO.BinaryReader) As Dictionary(Of String, Object)
         If Chr(br.ReadByte) <> "d" Then
             Throw New ParseErrorException
         End If
@@ -54,7 +54,7 @@
         Return ret
     End Function
 
-    Private Shared Function DecodeList(ByVal br As System.IO.BinaryReader) As List(Of Object)
+    Private Shared Function DecodeList(br As System.IO.BinaryReader) As List(Of Object)
         If Chr(br.ReadByte) <> "l" Then
             Throw New ParseErrorException
         End If
@@ -66,7 +66,7 @@
         Return ret
     End Function
 
-    Private Shared Function DecodeInteger(ByVal br As System.IO.BinaryReader) As Int64
+    Private Shared Function DecodeInteger(br As System.IO.BinaryReader) As Int64
         If Chr(br.ReadByte) <> "i" Then
             Throw New ParseErrorException
         End If
@@ -88,7 +88,7 @@
                 ret *= 10
                 ret += Int64.Parse(nextchar)
             ElseIf nextchar = "e" Then
-                If negative Then ret = -ret
+                If negative Then ret = - ret
                 Return ret
                 Exit Do
             Else
@@ -97,7 +97,7 @@
         Loop
     End Function
 
-    Private Shared Function DecodeByteString(ByVal br As System.IO.BinaryReader) As Byte()
+    Private Shared Function DecodeByteString(br As System.IO.BinaryReader) As Byte()
         Dim nextchar As Char
         Dim len As Integer = 0
         Do
